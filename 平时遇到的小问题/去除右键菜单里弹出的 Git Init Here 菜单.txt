@@ -1,0 +1,11 @@
+64-Bit Windows
+
+From a cmd.exe window, cd to "C:\Program Files (x86)\Git\git-cheetah" and run
+
+regsvr32 /u git_shell_ext64.dll
+
+32-Bit Windows
+
+From a cmd.exe window, cd to "C:\Program Files\Git\git-cheetah" and run
+
+regsvr32 /u git_shell_ext.dll
