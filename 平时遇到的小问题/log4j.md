@@ -111,3 +111,97 @@ log4j.appender.D.layout.ConversionPattern = %-d{yyyy-MM-dd HH:mm:ss}  [ %t:%r ] 
     } 
 }
 ```
+
+来自：[log4j.properties 使用说明](http://my.oschina.net/changsheng/blog/140452) 
+```
+log4j.rootLogger=DEBUG,CONSOLE,A1,im  
+#DEBUG,CONSOLE,FILE,ROLLING_FILE,MAIL,DATABASE 
+log4j.addivity.org.apache=true 
+###################  
+# Console Appender  
+###################  
+log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender  
+log4j.appender.Threshold=DEBUG  
+log4j.appender.CONSOLE.Target=System.out  
+log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout  
+log4j.appender.CONSOLE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n 
+#log4j.appender.CONSOLE.layout.ConversionPattern=[start]%d{DATE}[DATE]%n%p[PRIORITY]%n%x[NDC]%n%t[THREAD] n%c[CATEGORY]%n%m[MESSAGE]%n%n 
+#####################  
+# File Appender  
+#####################  
+log4j.appender.FILE=org.apache.log4j.FileAppender  
+log4j.appender.FILE.File=file.log  
+log4j.appender.FILE.Append=false  
+log4j.appender.FILE.layout=org.apache.log4j.PatternLayout  
+log4j.appender.FILE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n  
+# Use this layout for LogFactor 5 analysis 
+########################  
+# Rolling File  
+########################  
+log4j.appender.ROLLING_FILE=org.apache.log4j.RollingFileAppender  
+log4j.appender.ROLLING_FILE.Threshold=ERROR  
+log4j.appender.ROLLING_FILE.File=rolling.log  
+log4j.appender.ROLLING_FILE.Append=true  
+log4j.appender.ROLLING_FILE.MaxFileSize=10KB  
+log4j.appender.ROLLING_FILE.MaxBackupIndex=1  
+log4j.appender.ROLLING_FILE.layout=org.apache.log4j.PatternLayout  
+log4j.appender.ROLLING_FILE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n 
+####################  
+# Socket Appender  
+####################  
+log4j.appender.SOCKET=org.apache.log4j.RollingFileAppender  
+log4j.appender.SOCKET.RemoteHost=localhost  
+log4j.appender.SOCKET.Port=5001  
+log4j.appender.SOCKET.LocationInfo=true  
+# Set up for Log Facter 5  
+log4j.appender.SOCKET.layout=org.apache.log4j.PatternLayout  
+log4j.appender.SOCET.layout.ConversionPattern=[start]%d{DATE}[DATE]%n%p[PRIORITY]%n%x[NDC]%n%t[THREAD]%n%c[CATEGORY]%n%m[MESSAGE]%n%n 
+########################  
+# Log Factor 5 Appender  
+########################  
+log4j.appender.LF5_APPENDER=org.apache.log4j.lf5.LF5Appender  
+log4j.appender.LF5_APPENDER.MaxNumberOfRecords=2000 
+########################  
+# SMTP Appender  
+#######################  
+log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender  
+log4j.appender.MAIL.Threshold=FATAL  
+log4j.appender.MAIL.BufferSize=10  
+log4j.appender.MAIL.From=chenyl@yeqiangwei.com   
+log4j.appender.MAIL.SMTPHost=mail.hollycrm.com  
+log4j.appender.MAIL.Subject=Log4J Message  
+log4j.appender.MAIL.To=chenyl@yeqiangwei.com   
+log4j.appender.MAIL.layout=org.apache.log4j.PatternLayout  
+log4j.appender.MAIL.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n 
+########################  
+# JDBC Appender  
+#######################  
+log4j.appender.DATABASE=org.apache.log4j.jdbc.JDBCAppender  
+log4j.appender.DATABASE.URL=jdbc:mysql://localhost:3306/test  
+log4j.appender.DATABASE.driver=com.mysql.jdbc.Driver  
+log4j.appender.DATABASE.user=root  
+log4j.appender.DATABASE.password=  
+log4j.appender.DATABASE.sql=INSERT INTO T_LOG4J (USERID, ADDTIME, OPTIONCODE, MESSAGE) VALUES ('%X{userId}', '%d{yyyy-MM-dd HH:mm:ss}', '%X{optionCode}', '%X{message}')
+log4j.appender.DATABASE.layout=org.apache.log4j.PatternLayout 
+log4j.appender.DATABASE.layout.ConversionPattern=[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n 
+log4j.appender.A1=org.apache.log4j.DailyRollingFileAppender  
+log4j.appender.A1.File=SampleMessages.log4j  
+log4j.appender.A1.DatePattern=yyyyMMdd-HH'.log4j'  
+log4j.appender.A1.layout=org.apache.log4j.xml.XMLLayout 
+###################  
+#自定义Appender  
+###################  
+log4j.appender.im = net.cybercorlin.util.logger.appender.IMAppender 
+log4j.appender.im.host = mail.cybercorlin.net  
+log4j.appender.im.username = username  
+log4j.appender.im.password = password  
+log4j.appender.im.recipient =  corlin@yeqiangwei.com   
+log4j.appender.im.layout=org.apache.log4j.PatternLayout  
+log4j.appender.im.layout.ConversionPattern =[framework] %d - %c -%-4r [%t] %-5p %c %x - %m%n 
+```
+使用MDC来传递参数
+```java
+MDC.put("userId", "用户ID");  
+MDC.put("optionCode", Constant.LOG4J_OPTION_ADD);  
+MDC.put("tableName", tableName);  
+```
