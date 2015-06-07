@@ -27,11 +27,11 @@ log4j.appender.appenderName.layout  =  fully.qualified.name.of.layout.class
 
 ####其中 [level] 是日志输出级别，共有5级：
 
-**FATAL       0  **
-**ERROR      3  **
-**WARN       4  **
-**INFO         6  **
-**DEBUG      7 **
+*FATAL       0  *
+*ERROR      3  *
+*WARN       4  *
+*INFO         6  *
+*DEBUG      7 *
 
 
 ####Appender 为日志输出目的地，Log4j提供的appender有以下几种：
