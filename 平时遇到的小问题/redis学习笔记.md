@@ -1,16 +1,16 @@
 #redis学习笔记
 ##一、Redis安装
-* ###1、buntu上安装Redis
+* 1、buntu上安装Redis
 ```SHELL
 $sudo apt-get update
 $sudo apt-get install redis-server
 ```
-* ###2启动Redis
+* 2启动Redis
 ```SHELL
 $redis-server
 ```
 
-* ###3、检查Redis是否在工作
+* 3、检查Redis是否在工作
 ```SHELL
 $redis-cli
 ```
@@ -21,7 +21,7 @@ PONG
 ```
 这说明已经`成功`安装了Redis。
 ##二、Redis配置
-* ###1、Redis的CONFIG命令语法：
+* 1、Redis的CONFIG命令语法：
     查看配置项信息
 ```shell
 redis 127.0.0.1:6379> CONFIG GET CONFIG_SETTING_NAME
@@ -34,7 +34,7 @@ redis 127.0.0.1:6379> CONFIG SET CONFIG_SETTING_NAME NEW_CONFIG_VALUE
 ```
 ##三、Redis的数据类型
 包括：
-* ###1、Stirngs-字符串
+* 1、Stirngs-字符串
 Redis的字符串是字节序列，Redis的字符串是二进制安全的，他们有一个已知的长度，没有任何特殊字符决定终止，可以存储任何东西，最大长度可达512M。
 ```shell
 set username "name"
