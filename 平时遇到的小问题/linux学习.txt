@@ -8,3 +8,7 @@ linux 学习
 关机： shutdown -h now
 
 翻页：shift+PageUp/PageDown
+
+
+开放端口：netstat -apn|grep 6379
+查看redis：ps aux|grep redis
