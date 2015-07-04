@@ -82,3 +82,12 @@ PONG
 ```shell
 $ redis-cli -h host -p port -a "password"
 ```
+##四、Redis操作
+* 设置密码
+```shell
+redis> CONFIG SET requirepass secret_password
+```
+* 清空密码
+```shell
+redis> CONFIG SET requirepass ""
+```
