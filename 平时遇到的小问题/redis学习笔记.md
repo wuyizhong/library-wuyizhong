@@ -99,4 +99,5 @@ redis> CONFIG SET requirepass ""
 redisLog(REDIS_WARNING, "Redis is ...");
 ```
 当Redis需要的不仅仅是一个字符串字面量，而是一个可以被修改的字符串值时，Redis就会使用SDS来表示字符串值。
+
 除了用来保存数据库中的字符串值之外，SDS还被用作缓冲区：AOF模块中的AOF缓冲区，以及客户端状态中的输入缓冲区。
