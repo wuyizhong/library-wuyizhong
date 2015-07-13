@@ -4,7 +4,8 @@
 	修改bin/idea.properties 文件，在文件最后追加
 ```properties 
 disable.android.first.run=true
-``` **记得加回车**，不然不好使。
+```
+**记得加回车**，不然不好使。
 
 ###2 签名Android应用程序
 * 作用：
