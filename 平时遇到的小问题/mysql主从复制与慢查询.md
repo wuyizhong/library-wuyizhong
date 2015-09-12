@@ -1,3 +1,4 @@
+# 主从复制
 (来自：http://blog.csdn.net/hguisu/article/details/7325124)
 ## 2.1、创建复制帐号
 + 1、在`Master`的数据库中建立一个备份帐户：每个`slave`使用标准的`MySQL`用户名和密码连接`master`。进行复制操作的用户会授予`REPLICATION SLAVE`权限。用户名的密码都会存储在文本文件`master.info`中
@@ -80,3 +81,40 @@ show processlist\G;
 ```
 show processlist\G;
 ```
+
+# 慢查询
+（来自：http://blog.csdn.net/ljasdf123/article/details/9713523）
+MYSQL慢查询配置
+
++ 1. 慢查询有什么用?
+
+它能记录下所有执行超过`long_query_time`时间的`SQL`语句, 帮你找到执行慢的`SQL`, 方便我们对这些`SQL`进行优化.
+
++ 2. 如何开启慢查询?
+
+首先我们先查看`MYSQL`服务器的慢查询状态是否开启.执行如下命令:
+```
+show variables like '%quer%';
+```
+
+我们可以看到当前`log_slow_queries`状态为`OFF`, 说明当前并没有开启慢查询.
+
+开启慢查询非常简单, 操作如下:
+
+在`[mysqld]`中添加如下信息：
+
+```properties
+[mysqld]
+log-slow-queries="C:/Program Files/MySQL/MySQL Server 5.5/log/mysql-slow.log"
+long_query_time = 4
+
+log-queries-not-using-indexes
+```
+`log-slow-queries`: 代表`MYSQL`慢查询的日志存储目录, 此目录文件一定要有写权限；
+
+`Windows`下需要写**绝对**路径，如：`log-slow-queries="C:/Program Files/MySQL/MySQL Server 5.5/log/mysql-slow.log"`
+
+`long_query_time`: 最长执行时间. (如图, `MSYQL`将记录下所有执行时间超过2条的SQL语句, 此处为测试时间, 时间不应太小最好在5-10秒之内, 当然可以根据自己的标准而定);
+
+`log-queries-not-using-indexes`：没有使用到索引的查询也将被记录在日志中
+配置好以后**重启**`MYSQL`服务
