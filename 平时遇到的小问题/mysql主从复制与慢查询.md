@@ -67,8 +67,8 @@ mysql> SHOW SLAVE STATUS\G
 ```
 在这里主要是看:
 
-**                   Slave_IO_Running=Yes**
-**                   Slave_SQL_Running=Yes**
+**Slave_IO_Running=Yes**
+**Slave_SQL_Running=Yes**
 
 `slave`的I/O和SQL线程都已经开始运行，而且`Seconds_Behind_Master`不再是`NULL`。日志的位置增加了，意味着一些事件被获取并执行了。如果你在master上进行修改，你可以在slave上看到各种日志文件的位置的变化，同样，你也可以看到数据库中数据的变化。
 
@@ -82,7 +82,7 @@ show processlist\G;
 show processlist\G;
 ```
 
-# 2慢查询
+# 2、慢查询
 （来自：http://blog.csdn.net/ljasdf123/article/details/9713523）
 MYSQL慢查询配置
 
