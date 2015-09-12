@@ -1,6 +1,6 @@
-# 主从复制
+# 1、主从复制
 (来自：http://blog.csdn.net/hguisu/article/details/7325124)
-## 2.1、创建复制帐号
+## 1.1、创建复制帐号
 + 1、在`Master`的数据库中建立一个备份帐户：每个`slave`使用标准的`MySQL`用户名和密码连接`master`。进行复制操作的用户会授予`REPLICATION SLAVE`权限。用户名的密码都会存储在文本文件`master.info`中
 
 命令如下：
@@ -15,12 +15,12 @@ IDENTIFIED BY ‘123456’;
 set password for 'backup'@'10.100.0.200'=old_password('1234')）
 ```
 
-## 2.2、拷贝数据
+## 1.2、拷贝数据
 （假如是你完全新安装`mysql`主从服务器，这个一步就不需要。因为新安装的`master`和`slave`有相同的数据）
 
 关停`Master`服务器，将`Master`中的数据拷贝到B服务器中，使得`Master`和`slave`中的数据同步，并且确保在全部设置操作结束前，**禁止在Master和slave服务器中进行写操作，使得两数据库中的数据一定要相同！**
 
-## 2.3、配置`master`
+## 1.3、配置`master`
 接下来对`master`进行配置，包括打开二进制日志，指定唯一的`servr ID`。例如，在配置文件加入如下值：
 ```
 #slave会基于此log-bin来做replication
@@ -34,7 +34,7 @@ server-id=1
 
 **重启** `master`，运行`SHOW MASTER STATUS`，记录File的内容:`mysql-bin.000001`
 
-## 2.4、配置`slave`
+## 1.4、配置`slave`
 `slave`的配置与`master`类似，你同样需要**重启**`slave`的`MySQL`。如下：
 ```
 log_bin           = mysql-bin
@@ -50,7 +50,7 @@ read_only         = 1
 `log_slave_updates`表示`slave`将复制事件写进自己的二进制日志(后面会看到它的用处)。
 
 有些人开启了`slave`的二进制日志，却没有设置`log_slave_updates`，然后查看`slave`的数据是否改变，这是一种错误的配置。所以，尽量使用`read_only`，它防止改变数据(除了特殊的线程)。但是，`read_only`并是很实用，特别是那些需要在slave上创建表的应用。
-## 2.5、启动slave
+## 1.5、启动slave
 接下来就是让`slave`连接`master`，并开始重做`master`二进制日志中的事件。你不应该用配置文件进行该操作，而应该使用`CHANGE MASTER TO`语句，该语句可以完全取代对配置文件的修改，而且它可以为`slave`指定不同的`master`，而不需要停止服务器。如下：
 ```
 mysql> CHANGE MASTER TO MASTER_HOST='192.168.1.128',
@@ -82,15 +82,15 @@ show processlist\G;
 show processlist\G;
 ```
 
-# 慢查询
+# 2慢查询
 （来自：http://blog.csdn.net/ljasdf123/article/details/9713523）
 MYSQL慢查询配置
 
-+ 1. 慢查询有什么用?
++ 2.1 慢查询有什么用?
 
 它能记录下所有执行超过`long_query_time`时间的`SQL`语句, 帮你找到执行慢的`SQL`, 方便我们对这些`SQL`进行优化.
 
-+ 2. 如何开启慢查询?
++ 2.2 如何开启慢查询?
 
 首先我们先查看`MYSQL`服务器的慢查询状态是否开启.执行如下命令:
 ```
