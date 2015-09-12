@@ -4,14 +4,14 @@
 + 1、在`Master`的数据库中建立一个备份帐户：每个`slave`使用标准的`MySQL`用户名和密码连接`master`。进行复制操作的用户会授予`REPLICATION SLAVE`权限。用户名的密码都会存储在文本文件`master.info`中
 
 命令如下：
-```
+```sql
 mysql > GRANT REPLICATION SLAVE,RELOAD,SUPER ON *.*
 TO repl@’192.168.1.100’
 IDENTIFIED BY ‘123456’;
 ```
 建立一个帐户`repl`，并且只能允许从`192.168.1.100`这个地址上来登陆，密码是`123456`。
 (如果因为`mysql`版本新旧密码算法不同，可以设置：
-```
+```sql
 set password for 'backup'@'10.100.0.200'=old_password('1234')）
 ```
 
@@ -22,7 +22,7 @@ set password for 'backup'@'10.100.0.200'=old_password('1234')）
 
 ## 1.3、配置`master`
 接下来对`master`进行配置，包括打开二进制日志，指定唯一的`servr ID`。例如，在配置文件加入如下值：
-```
+```properties
 #slave会基于此log-bin来做replication
 log-bin=mysql-bin
 log-bin-index=mysql-bin.index
@@ -36,7 +36,7 @@ server-id=1
 
 ## 1.4、配置`slave`
 `slave`的配置与`master`类似，你同样需要**重启**`slave`的`MySQL`。如下：
-```
+```properties
 log_bin           = mysql-bin
 server_id         = 2
 relay_log         = mysql-relay-bin
@@ -52,7 +52,7 @@ read_only         = 1
 有些人开启了`slave`的二进制日志，却没有设置`log_slave_updates`，然后查看`slave`的数据是否改变，这是一种错误的配置。所以，尽量使用`read_only`，它防止改变数据(除了特殊的线程)。但是，`read_only`并是很实用，特别是那些需要在slave上创建表的应用。
 ## 1.5、启动slave
 接下来就是让`slave`连接`master`，并开始重做`master`二进制日志中的事件。你不应该用配置文件进行该操作，而应该使用`CHANGE MASTER TO`语句，该语句可以完全取代对配置文件的修改，而且它可以为`slave`指定不同的`master`，而不需要停止服务器。如下：
-```
+```sql
 mysql> CHANGE MASTER TO MASTER_HOST='192.168.1.128',
     -> MASTER_USER='repl',
     -> MASTER_PASSWORD='123456',
@@ -62,7 +62,7 @@ mysql> CHANGE MASTER TO MASTER_HOST='192.168.1.128',
 `MASTER_LOG_POS`的值为`0`，因为它是日志的开始位置。
 
 你可以用`SHOW SLAVE STATUS`语句查看slave的设置是否正确：
-```
+```sql
 mysql> SHOW SLAVE STATUS\G
 ```
 在这里主要是看:
@@ -74,11 +74,11 @@ mysql> SHOW SLAVE STATUS\G
 
 你可查看`master`和`slave`上线程的状态。在master上，你可以看到slave的I/O线程创建的连接：
 在`master`上输入
-```
+```command
 show processlist\G;
 ```
 在`slave`上输入
-```
+```command
 show processlist\G;
 ```
 
@@ -93,7 +93,7 @@ MYSQL慢查询配置
 + 2.2 如何开启慢查询?
 
 首先我们先查看`MYSQL`服务器的慢查询状态是否开启.执行如下命令:
-```
+```sql
 show variables like '%quer%';
 ```
 
