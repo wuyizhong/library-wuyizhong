@@ -1,4 +1,5 @@
 # 1. APACHE支持.htaccess以及 No input file specified解决方案
+来自：http://www.phpstudy.net/a.php/165.html
 
 你的Apache安装文件夹conf里找到httpd.conf文件
 
