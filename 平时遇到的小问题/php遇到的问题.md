@@ -51,3 +51,36 @@ RewriteRule ^(.*)$ /index.php?/$1 [L]
 ```
 
 在正则结果“$1”前面多加了一个“?”号，问题也就随之解决了。
+
+# 2.file_get_contents(): Unable to find the wrapper "https"
+- did you forget to enable it when you configured PHP? 
+**解决办法一**，如果你是用的服务器，可以参考这个办法，修改php配置文件（win主机），来支持https
+
+在php.ini中找到并修改
+```ini
+extension=php_openssl.dll
+allow_url_include = On
+```
+
+重启服务就可以了，如果你的是linux服务器，linux下的PHP，就必须安装openssl模块，安装好了以后就可以访了。
+
+**解决办法二**，如果你用的不是服务器，你用的主机，你没法更改php的配置，你可以通过使用curl函数来替代file_get_contents函数，当然你的主机必须支持curl函数。
+
+```php
+<?php
+
+function getSslPage($url) {
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($ch, CURLOPT_HEADER, false);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_REFERER, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+$result = curl_exec($ch);
+curl_close($ch);
+return $result;
+}
+echo getSslPage($_GET['url']);
+?>
+```
