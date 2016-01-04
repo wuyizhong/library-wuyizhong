@@ -54,6 +54,7 @@ RewriteRule ^(.*)$ /index.php?/$1 [L]
 
 # 2.file_get_contents(): Unable to find the wrapper "https"
 - did you forget to enable it when you configured PHP? 
+
 **解决办法一**，如果你是用的服务器，可以参考这个办法，修改php配置文件（win主机），来支持https
 
 在php.ini中找到并修改
