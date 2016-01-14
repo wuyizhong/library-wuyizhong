@@ -90,4 +90,4 @@ update-alternatives: 使用 /usr/lib/jvm/java-7-sun/bin/java 来提供 /usr/bin/
 ```
 www.linuxidc.com@linux:~$ java -version  
 ```
-> 如果报错不是一个文件夹，一般是版本装错了，64装了32的版本
+> 如果报错`bash: /usr/bin/java: No such file or directory`，一般是版本装错了，64装了32的版本
