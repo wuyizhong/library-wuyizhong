@@ -1,4 +1,4 @@
-﻿ 	// HashMap的remove()方法只是去掉了该Key的值
+﻿ 	// AbstractMap的remove()方法只是去掉了该Key的值
  	public V remove(Object key) {
 		Iterator<Entry<K, V>> i = entrySet().iterator();
 		Entry<K, V> correctEntry = null;
