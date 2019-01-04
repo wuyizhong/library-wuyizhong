@@ -14,3 +14,4 @@
 ```
 `String`的`hashCode`方法不断地乘以31
 31可以被`JVM`优化，`31 * i = (i << 5) - i`。
+`hibernate`的`Time33`也是类似的。
